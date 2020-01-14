@@ -1,0 +1,19 @@
+{
+  "name": "rekognition-prototype",
+  "version": "1.0.0",
+  "description": "Prototype for analyzing data returned by AWS Rekognition",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deycorinne/rekognition-prototype.git"
+  },
+  "author": "cjdey@pbs.org",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deycorinne/rekognition-prototype/issues"
+  },
+  "homepage": "https://github.com/deycorinne/rekognition-prototype#readme"
+}
