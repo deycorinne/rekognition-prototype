@@ -8,8 +8,8 @@ awsHelpers.gets3Object(FILE_PATH).then(video => {
     // var bitmap = new createjs.VideoBuffer(video.Body); // TODO: update to use our video from s3-- this should be an html element? maybe use a dif library
     // var g = new createjs.Graphics(); // init new graphics clas
 
-    awsHelpers.startRekFaceDetection(FILE_PATH).then(result => {
-        console.log(result)
+    awsHelpers.startRekFaceDetection(FILE_PATH).then(data => {
+        console.log(data)
 
         // extract our faces from the results
         let faces = data.Faces;
