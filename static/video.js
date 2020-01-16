@@ -4,11 +4,9 @@
     var videoHeight = vid.offsetHeight;
     var faceBox = window.document.getElementById("faceBox");
 
-    // TODO: assign each person a random color, do not hardcode
-    var peopleColors = {
-        0: "#34eb74",
-        1: "1d94f0"
-    }
+    // for right now we know each video will have at least one person, 
+    // as we find more we will generate random colors for their respective boxes
+    var peopleColors = ["#34eb74"];
     
     let lastTime = 0;
     let currentPerson = 0;
@@ -19,10 +17,13 @@
         if (time <= lastTime) {
             lastTime = time;
         }
+
         // find a face bounds object using relative time
         var person = faces.find(
             element => element["time"] >= lastTime && time >= element["time"]
         );
+
+        // if we find a face/person, update the box styles
         if (person) {
             let personNum = person.index;
             
@@ -36,7 +37,13 @@
             // if this is a new person, change the color of the box
             if(personNum !=currentPerson){
                 currentPerson = personNum;
-                faceBox.style["border-color"] = `${peopleColors[currentPerson]}`;
+                if (peopleColors[currentPerson]) {
+                    faceBox.style["border-color"] = `${peopleColors[currentPerson]}`;
+                } else {
+                    let newColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+                    faceBox.style["border-color"] = `${newColor}`;
+                    peopleColors[currentPerson] = newColor;
+                }
             }
         }
     };
