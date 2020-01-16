@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
     // TODO: use AWS to get JSON from rekognition but for now...
     // read sample JSON file
     fileHelpers.readJsonFile("sample.json").then(data => {
-        // for right now I dont care about who the person is, just where their face is
+
         var faces = _.compact(_.map(data.Persons, person => {
             if (person.Person.Face) {
                 return {
@@ -29,7 +29,6 @@ app.get("/", (req, res) => {
             } else {
                 return null;
             }
-            
         }));
 
         let styles = faces[0];
@@ -54,7 +53,6 @@ app.get("/", (req, res) => {
                     var faces = ${faceString};
                 </script>
                 <script type="text/javascript" src="video.js"></script>
-
             </div>`
         );
     });
