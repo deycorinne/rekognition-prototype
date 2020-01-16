@@ -8,7 +8,8 @@ var app = express();
 var awsHelpers = require('./helpers/aws');
 var fileHelpers = require('./helpers/file');
 
-var FILE_PATH = process.argv[2];
+// var FILE_PATH = process.argv[2];
+var FILE_PATH = "test-video.mp4";
 
 // Set up App
 app.use(express.static(path.join(__dirname, 'static')));
@@ -18,31 +19,37 @@ app.get('/', (req, res) =>  {
     fileHelpers.readJsonFile('sample.json').then(data => {
         // for right now I dont care about who the person is, just where their face is
         var faces = _.map(data.Persons, person => {
-            var time = person.Timestamp;
             return {
-                [time]: person.Person.BoundingBox
+                "bounds": person.Person.BoundingBox,
+                "time": person.Timestamp,
+                "index": person.Person.Index
             };
         });
 
         // TODO: we need to loop through the faces once a user clicks play and update the canvas styles based on timestamp
         let styles = faces[0];
+        let faceString = JSON.stringify(faces);
         res.send(
             `<div class="video-with-shapes" style="position: relative;">
-                <video style=" width: 100%" controls>
-                    <source src="test-video.mp4" type="video/mp4">
+                <video style=" width: 100%" controls id="faceVideo">
+                    <source src="${FILE_PATH}" type="video/mp4">
                 </video>
-                <div class="canvas" 
-                style="
-                    position: absolute; 
-                    right: 0; 
-                    bottom: 0; 
-                    z-index: 1; 
-                    border: 5px solid white; 
-                    top: ${styles["0"].Top * 100}%;
-                    left: ${styles["0"].Left * 100}%;
-                    width: ${styles["0"].Width * 100}%;
-                    height: ${styles["0"].Height * 100}%"
-                    >
+                <div class="canvas" id="faceBox"
+                    style="
+                        position: absolute; 
+                        z-index: 1; 
+                        border: 5px solid #34eb74; 
+                        top: ${styles.bounds.Top * 100}%;
+                        left: ${styles.bounds.Left * 100}%;
+                        width: ${styles.bounds.Width * 100}%;
+                        height: ${styles.bounds.Height * 100}%"
+                    > </div>
+
+                <script type="text/javascript">
+                    var faces = ${faceString};
+                </script>
+                <script type="text/javascript" src="video.js"></script>
+
             </div>`
         )
     });
