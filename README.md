@@ -15,5 +15,5 @@ Example .env file:
     SNS_TOPIC_ARN="TEST"
 
 
-`node index.js {{NAME_OF_S3_FILE}}`
+`npm start`
 
